@@ -43,7 +43,7 @@ const SITE = {
     { title: "Studdy Buddy", text: "Local/External Ai-Assisted study guide generator software using C++ and Qt Framework.", tags: ["Study", "AI", "C++", "Qt", "Software"], link: "#", image: "/Assets/images/studybuddy.png" },
     { title: "WindeployQtGui", text: "A GUI for the windeployqt tool to make it easier to use.", tags: ["GUI", "C++", "Qt", "Software"], link: "#", image: "/Assets/images/windeployqtlogo.png" },
     { title: "Watchdog", text: "A small file sorting / cleaning application based on user defined rules.", tags: ["C++", "Qt", "Software", "File Sorting", "Disk Cleaner"], link: "#", image: "/Assets/images/watchdog_logo.png" },
-    { title: "PDFTouch", text: "Small document reception programs to recieve documents from a scanner and place them in the correct place, made for Hawkesbury General Hospital's Material Management and Finance departments.", tags: ["C++", "Qt", "Software", "Document Reception", "Document Forwarding", "Domain Specific"], link: "#", image: "/Assets/images/pdftouch.png" }
+    { title: "PDFTouch", text: "2 small programs to receive documents from a scanner and place them in the correct place, made for Hawkesbury General Hospital's Material Management and Finance departments.", tags: ["C++", "Qt", "Software", "Document Reception", "Document Forwarding", "Domain Specific"], link: "#", image: "/Assets/images/pdftouch.png" }
   ],
 
   skills: [
