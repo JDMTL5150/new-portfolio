@@ -344,6 +344,13 @@ if (portraitEl) {
   const hamburgerMenu = document.querySelector('.hamburger-menu');
   const menu = document.querySelector('.mobile-menu');
   const exitButton = document.querySelector('.close-menu');
+  const navLinks = document.querySelectorAll('.mobile-menu a');
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      menu.classList.remove('open');
+    });
+  });
 
   hamburgerMenu.addEventListener('click', () => {
     menu.classList.toggle('open');
