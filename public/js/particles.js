@@ -4,6 +4,20 @@ const ctx = canvas.getContext('2d');
 let particles = [];
 const particleCount = 70; // Adjust for density
 
+function hexToRgb(hex) {
+  // Strip leading '#' if present
+  const cleanHex = hex.replace(/^#/, '');
+
+  // Parse integer and extract RGB components via bit-shifting
+  const num = parseInt(cleanHex, 16);
+
+  return {
+    r: (num >> 16) & 255,
+    g: (num >> 8) & 255,
+    b: num & 255
+  };
+}
+
 // Resize canvas to match window size
 function resizeCanvas() {
   canvas.width = window.innerWidth;
@@ -39,7 +53,8 @@ class Particle {
   }
 
   draw() {
-    ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+    const accent = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--accent').trim());
+    ctx.fillStyle = `rgba(${accent.r}, ${accent.g}, ${accent.b}, ${this.opacity})`;
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
     ctx.fill();
