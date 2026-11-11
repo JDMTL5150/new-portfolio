@@ -28,23 +28,23 @@ const SITE = {
 
   // testing links.
 
-  projects: [
-    { title: "Ghostly.", text: "Ai-assisted local PII redaction software using C++ and Qt Framework.", tags: ["Privacy", "AI", "C++", "Qt", "Software", "Redaction"], link: "#", image: "/public/Assets/images/Ghostly-Logo.png" },
-    { title: "Studdy Buddy", text: "Local/External Ai-Assisted study guide generator software using C++ and Qt Framework.", tags: ["Study", "AI", "C++", "Qt", "Software"], link: "#", image: "/public/Assets/images/studybuddy.png" },
-    { title: "WindeployQtGui", text: "A GUI for the windeployqt tool to make it easier to use.", tags: ["GUI", "C++", "Qt", "Software"], link: "#", image: "/public/Assets/images/windeployqtlogo.png" },
-    { title: "Watchdog", text: "A small file sorting / cleaning application based on user defined rules.", tags: ["C++", "Qt", "Software", "File Sorting", "Disk Cleaner"], link: "#", image: "/public/Assets/images/watchdog_logo.png" },
-    { title: "PDFTouch", text: "Small document reception programs to recieve documents from a scanner and place them in the correct place, made for Hawkesbury General Hospital's Material Management and Finance departments.", tags: ["C++", "Qt", "Software", "Document Reception", "Document Forwarding", "Domain Specific"], link: "#", image: "/public/Assets/images/pdftouch.png" }
-  ],
+  // projects: [
+  //   { title: "Ghostly.", text: "Ai-assisted local PII redaction software using C++ and Qt Framework.", tags: ["Privacy", "AI", "C++", "Qt", "Software", "Redaction"], link: "#", image: "/public/Assets/images/Ghostly-Logo.png" },
+  //   { title: "Studdy Buddy", text: "Local/External Ai-Assisted study guide generator software using C++ and Qt Framework.", tags: ["Study", "AI", "C++", "Qt", "Software"], link: "#", image: "/public/Assets/images/studybuddy.png" },
+  //   { title: "WindeployQtGui", text: "A GUI for the windeployqt tool to make it easier to use.", tags: ["GUI", "C++", "Qt", "Software"], link: "#", image: "/public/Assets/images/windeployqtlogo.png" },
+  //   { title: "Watchdog", text: "A small file sorting / cleaning application based on user defined rules.", tags: ["C++", "Qt", "Software", "File Sorting", "Disk Cleaner"], link: "#", image: "/public/Assets/images/watchdog_logo.png" },
+  //   { title: "PDFTouch", text: "Small document reception programs to recieve documents from a scanner and place them in the correct place, made for Hawkesbury General Hospital's Material Management and Finance departments.", tags: ["C++", "Qt", "Software", "Document Reception", "Document Forwarding", "Domain Specific"], link: "#", image: "/public/Assets/images/pdftouch.png" }
+  // ],
 
   // hosting links
 
-  // projects: [
-  //   { title: "Ghostly.", text: "Ai-assisted local PII redaction software using C++ and Qt Framework.", tags: ["Privacy", "AI", "C++", "Qt", "Software", "Redaction"], link: "#", image: "/Assets/images/Ghostly-Logo.png" },
-  //   { title: "Studdy Buddy", text: "Local/External Ai-Assisted study guide generator software using C++ and Qt Framework.", tags: ["Study", "AI", "C++", "Qt", "Software"], link: "#", image: "/Assets/images/studybuddy.png" },
-  //   { title: "WindeployQtGui", text: "A GUI for the windeployqt tool to make it easier to use.", tags: ["GUI", "C++", "Qt", "Software"], link: "#", image: "/Assets/images/windeployqtlogo.png" },
-  //   { title: "Watchdog", text: "A small file sorting / cleaning application based on user defined rules.", tags: ["C++", "Qt", "Software", "File Sorting", "Disk Cleaner"], link: "#", image: "/Assets/images/watchdog_logo.png" },
-  //   { title: "PDFTouch", text: "Small document reception programs to recieve documents from a scanner and place them in the correct place, made for Hawkesbury General Hospital's Material Management and Finance departments.", tags: ["C++", "Qt", "Software", "Document Reception", "Document Forwarding", "Domain Specific"], link: "#", image: "/Assets/images/pdftouch.png" }
-  // ],
+  projects: [
+    { title: "Ghostly.", text: "Ai-assisted local PII redaction software using C++ and Qt Framework.", tags: ["Privacy", "AI", "C++", "Qt", "Software", "Redaction"], link: "#", image: "/Assets/images/Ghostly-Logo.png" },
+    { title: "Studdy Buddy", text: "Local/External Ai-Assisted study guide generator software using C++ and Qt Framework.", tags: ["Study", "AI", "C++", "Qt", "Software"], link: "#", image: "/Assets/images/studybuddy.png" },
+    { title: "WindeployQtGui", text: "A GUI for the windeployqt tool to make it easier to use.", tags: ["GUI", "C++", "Qt", "Software"], link: "#", image: "/Assets/images/windeployqtlogo.png" },
+    { title: "Watchdog", text: "A small file sorting / cleaning application based on user defined rules.", tags: ["C++", "Qt", "Software", "File Sorting", "Disk Cleaner"], link: "#", image: "/Assets/images/watchdog_logo.png" },
+    { title: "PDFTouch", text: "Small document reception programs to recieve documents from a scanner and place them in the correct place, made for Hawkesbury General Hospital's Material Management and Finance departments.", tags: ["C++", "Qt", "Software", "Document Reception", "Document Forwarding", "Domain Specific"], link: "#", image: "/Assets/images/pdftouch.png" }
+  ],
 
   skills: [
     "C & C++",
