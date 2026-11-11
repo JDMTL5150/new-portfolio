@@ -17,15 +17,15 @@
   <div class="wrap">
     <nav aria-label="Main">
       <a class="logo" href="#top"><i></i><span id="logo"></span></a>
-      <ul>
+      <ul class="nav-links">
         <li><a href="#about">About</a></li>
         <li><a href="#work">Work</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="#experience">Experience</a></li>
         <li><a href="#education">Education</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li>
-          <label class="theme-switch">
+      </ul>
+      <label class="theme-switch">
             <span>
               <img src="Assets/images/Moon.png" alt="🌙" style="width: 2rem; height: 2rem;">
             </span>
@@ -42,11 +42,28 @@
               <img src="Assets/images/Sun.png" alt="☀️" style="width: 2rem; height: 2rem;">
             </span>
           </label>
-        </li>
-      </ul>
+          <div class="spacer"></div>
+          <div class="hamburger-menu">
+            <img src="Assets/images/Menu.png" alt="Menu" style="width: 2rem; height: 2rem;">
+          </div>
     </nav>
   </div>
 </header>
+
+<div class="mobile-menu">
+  <div class="menu-overlay">
+    <button class="close-menu">X</button>
+    <div class="menu-spacer"></div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</div>
 
 <main id="top">
   <section class="hero">

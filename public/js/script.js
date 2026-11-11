@@ -339,4 +339,17 @@ if (portraitEl) {
   if ($("contactText")) $("contactText").textContent = SITE.contactText;
   if ($("socials")) $("socials").innerHTML = SITE.socials.map(s => '<a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.label) + "</a>").join("");
   if ($("footer")) $("footer").textContent = "© " + new Date().getFullYear() + " " + SITE.name;
+
+  // open and close the mobile menu
+  const hamburgerMenu = document.querySelector('.hamburger-menu');
+  const menu = document.querySelector('.mobile-menu');
+  const exitButton = document.querySelector('.close-menu');
+
+  hamburgerMenu.addEventListener('click', () => {
+    menu.classList.toggle('open');
+  });
+
+  exitButton.addEventListener('click', () => {
+    menu.classList.remove('open');
+  });
 });
