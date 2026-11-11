@@ -6,11 +6,11 @@ const SITE = {
   name: "Jacob Dawes",
   role: "Computer Engineering Student",
   status: "Open to Networking & Opportunities",
-  headline: "Low level && System's Developer",
+  headline: "Low-Level && System's Developer",
   headlineAccent: "&&",          // this phrase is shown in green (leave "" for none)
   lede: "Passionate abount Low level Programmer & cybersecurity. Strong foundation in hardware and software development, seeking to contribute to innovative projects and expand my expertise in the field.",
   email: "jacobd2887@gmail.com",
-  photo: "",                               // paste an image URL or data URI; blank shows your initial
+  photo: "",                       // paste an image URL or data URI; blank shows your initial
 
   bio: [
     `I am a Computer Engineering student with experience in Web Development, Hardware Programming and
@@ -114,127 +114,229 @@ const SITE = {
   ]
 };
 
-/* ---------- Rendering ---------- */
-const $ = id => document.getElementById(id);
-const $$ = sel => document.querySelectorAll(sel);
-const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+/* ---------- Rendering & Theme Logic ---------- */
 
-const barColor = percentage => {
-  if (percentage >= 80) return "#3ee08f";
-  if (percentage >= 60) return "#c3ff00";
-  if (percentage <= 40) return "#ffe100";
-  return "#3ee08f";
+document.addEventListener('DOMContentLoaded', () => {
+  // Helpers
+  const $ = id => document.getElementById(id);
+  const $$ = sel => document.querySelectorAll(sel);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  const barColor = percentage => {
+    if (percentage >= 80) return "var(--accent)";
+    if (percentage >= 60) return "#c3ff00";
+    if (percentage <= 40) return "#ffe100";
+    return "var(--accent)";
+  };
+
+  function updateMousePositionProperties(event, targetElement = event.currentTarget) {
+    const rect = targetElement.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    targetElement.style.setProperty('--mouse-x', `${x}px`);
+    targetElement.style.setProperty('--mouse-y', `${y}px`);
+  }
+
+  function initTilt(target, options = {}) {
+  const defaults = {
+    maxTilt: 15,
+    perspective: 1000,
+    easing: 'ease-out',
+    speed: 150,
+  };
+
+  const settings = { ...defaults, ...options };
+  const elements = typeof target === 'string' 
+    ? document.querySelectorAll(target) 
+    : target instanceof NodeList 
+      ? target 
+      : [target];
+
+  elements.forEach((el) => {
+    // Ensure parent/element setup supports 3D transform rendering
+    el.style.transformStyle = 'preserve-3d';
+    el.style.willChange = 'transform';
+
+    el.addEventListener('mousemove', (e) => {
+      const rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      // Distance from center (-0.5 to 0.5)
+      const centerX = x / rect.width - 0.5;
+      const centerY = y / rect.height - 0.5;
+
+      const rotateX = -centerY * settings.maxTilt;
+      const rotateY = centerX * settings.maxTilt;
+
+      // Clear transition during mousemove for instant response
+      el.style.transition = 'none';
+      el.style.transform = `perspective(${settings.perspective}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    el.addEventListener('mouseleave', () => {
+      // Re-enable smooth transition only when returning to zero state
+      el.style.transition = `transform ${settings.speed}ms ${settings.easing}`;
+      el.style.transform = `perspective(${settings.perspective}px) rotateX(0deg) rotateY(0deg)`;
+    });
+  });
 }
 
-function updateMousePositionProperties(event, targetElement = event.currentTarget) {
-  const rect = targetElement.getBoundingClientRect();
-  const x = event.clientX - rect.left;
-  const y = event.clientY - rect.top;
+  // 1. Theme Controller Setup
+  const themeSlider = $('theme-slider');
+  const savedTheme = localStorage.getItem('theme');
+  const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
 
-  targetElement.style.setProperty('--mouse-x', `${x}px`);
-  targetElement.style.setProperty('--mouse-y', `${y}px`);
+  let currentTheme = savedTheme || (systemPrefersLight ? 'light' : 'dark');
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    if (themeSlider) {
+      themeSlider.value = theme === 'light' ? '100' : '0';
+    }
+  }
+
+  // Apply initial theme state
+  applyTheme(currentTheme);
+
+  // Attach Theme Slider Listener
+  if (themeSlider) {
+    themeSlider.addEventListener('input', (e) => {
+      const newTheme = Number(e.target.value) >= 50 ? 'light' : 'dark';
+      applyTheme(newTheme);
+    });
+  }
+
+  // 2. Render Page Content
+  document.title = SITE.name + " – " + SITE.role;
+  if ($("logo")) $("logo").textContent = SITE.name;
+  if ($("status")) $("status").textContent = SITE.status;
+  if ($("lede")) $("lede").textContent = SITE.lede;
+
+  const text = SITE.headline;
+  const accent = SITE.headlineAccent || "";
+  const accentStart = accent ? text.indexOf(accent) : -1;
+  const accentEnd = accentStart + accent.length;
+
+  let pos = 0;
+  let index = 0;
+
+  if ($("headline")) {
+    $("headline").innerHTML = text.split(/(\s+)/).map(part => {
+      const start = pos;
+      pos += part.length;
+
+      if (/^\s+$/.test(part)) return part;
+
+      const chars = part.split("").map((ch, j) => {
+        const abs = start + j;
+        const isAccent = accentStart >= 0 && abs >= accentStart && abs < accentEnd;
+        const c = esc(ch);
+        return `<span class="headline-char" style="--char-index:${index++}">${isAccent ? `<em>${c}</em>` : c}</span>`;
+      }).join("");
+
+      return `<span class="headline-word">${chars}</span>`;
+    }).join("");
+  }
+
+  if ($("heroEmail")) $("heroEmail").href = "#contact";
+  if ($("mailBtn")) $("mailBtn").href = "mailto:" + SITE.email;
+
+const portraitEl = $("portrait");
+
+if (portraitEl) {
+  portraitEl.innerHTML = SITE.photo
+    ? '<img src="' + esc(SITE.photo) + '" alt="Portrait of ' + esc(SITE.name) + '">'
+    : "<span>" + esc(SITE.name.trim().charAt(0)) + "</span>";
+
+  // 1. Mouse position tracker listener
+  portraitEl.addEventListener('mousemove', e => {
+    updateMousePositionProperties(e, portraitEl);
+  });
+
+  // 2. Initialize tilt ONCE (do not put this inside a mousemove listener)
+  initTilt(portraitEl, { 
+    maxTilt: 15, 
+    perspective: 1000, 
+    easing: 'ease-out', 
+    speed: 150 
+  });
 }
 
-document.title = SITE.name + " – " + SITE.role;
-$("logo").textContent = SITE.name;
-$("status").textContent = SITE.status;
-$("lede").textContent = SITE.lede;
+  if ($("bio")) $("bio").innerHTML = SITE.bio.map(p => "<p>" + esc(p) + "</p>").join("");
+  if ($("facts")) $("facts").innerHTML = SITE.facts.map(f => "<div><b>" + esc(f.value) + "</b><small>" + esc(f.label) + "</small></div>").join("");
 
-const text = SITE.headline;
-const accent = SITE.headlineAccent || "";
-const accentStart = accent ? text.indexOf(accent) : -1;
-const accentEnd = accentStart + accent.length;
+  const art = '<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle cx="250" cy="40" r="90" fill="var(--accent)" opacity=".10"/><circle cx="60" cy="150" r="70" fill="var(--accent)" opacity=".07"/><rect x="36" y="44" width="120" height="10" rx="5" fill="var(--accent)" opacity=".55"/><rect x="36" y="66" width="190" height="8" rx="4" fill="var(--text)" opacity=".12"/><rect x="36" y="82" width="150" height="8" rx="4" fill="var(--text)" opacity=".12"/></svg>';
 
-let pos = 0;
-let index = 0;
+  if ($("projects")) {
+    $("projects").innerHTML = SITE.projects.map(p =>
+      '<a class="card" href="' + esc(p.link) + '"><div class="thumb">' +
+      (p.image ? '<img src="' + esc(p.image) + '" alt="' + esc(p.title) + ' preview" loading="lazy">' : art) +
+      '</div><div class="body"><h3>' + esc(p.title) + "</h3><p>" + esc(p.text) + '</p><div class="tags">' +
+      p.tags.map(t => "<span>" + esc(t) + "</span>").join("") + "</div></div></a>"
+    ).join("");
 
-$("headline").innerHTML = text.split(/(\s+)/).map(part => {
-  const start = pos;
-  pos += part.length;
+    $$(".card").forEach(item => {
+      item.addEventListener('mousemove', e => {
+        updateMousePositionProperties(e, item);
+      });
+    });
+  }
 
-  // keep spaces as plain text so lines wrap normally
-  if (/^\s+$/.test(part)) return part;
+  if ($("skillList")) {
+    $("skillList").innerHTML = SITE.skills.map(s => "<span class='skill-item'>" + esc(s) + "</span>").join("");
 
-  const chars = part.split("").map((ch, j) => {
-    const abs = start + j;
-    const isAccent = accentStart >= 0 && abs >= accentStart && abs < accentEnd;
-    const c = esc(ch);
-    return `<span class="headline-char" style="--char-index:${index++}">${isAccent ? `<em>${c}</em>` : c}</span>`;
-  }).join("");
+    $$(".skill-item").forEach(item => {
+      item.addEventListener('mousemove', e => {
+        updateMousePositionProperties(e, item);
+      });
+    });
+  }
 
-  return `<span class="headline-word">${chars}</span>`;
-}).join("");
+  if ($("jobs")) {
+    $("jobs").innerHTML = SITE.jobs.map(j =>
+      "<li><h3>" + esc(j.title) + " at " + `<span style='color: var(--accent);'>${esc(j.place)}</span>` + '</h3><div class="when">' + esc(j.when) + "</div><p>" + esc(j.text) + "</p></li>"
+    ).join("");
+  }
 
-$("heroEmail").href = "#contact";
-$("mailBtn").href = "mailto:" + SITE.email;
+  if ($("schools")) {
+    $("schools").innerHTML = SITE.education.map(e =>
+      "<li><h3>" + esc(e.program) + " at " + `<span style='color: var(--accent);'>${esc(e.school)}</span>` + '</h3><div class="when">' + esc(e.when) + "</div></li>"
+    ).join("");
+  }
 
-$("portrait").innerHTML = SITE.photo
-  ? '<img src="' + esc(SITE.photo) + '" alt="Portrait of ' + esc(SITE.name) + '">'
-  : "<span>" + esc(SITE.name.trim().charAt(0)) + "</span>";
+  if ($("lang-list")) {
+    $("lang-list").innerHTML = SITE.languages.map(l =>
+      `<li class="skill-card">
+        <h3>${l.label}</h3>
+        <div class="meta">
+          <span>${l.level}</span>
+        </div>
+        <div class="fluency-bar">
+          <div class="level" style="width: ${l.percentage}%; background: ${barColor(l.percentage)};"></div>
+        </div>
+        <p>${l.summary}</p>
+      </li>`
+    ).join("");
+  }
 
-$("bio").innerHTML = SITE.bio.map(p => "<p>" + esc(p) + "</p>").join("");
-$("facts").innerHTML = SITE.facts.map(f => "<div><b>" + esc(f.value) + "</b><small>" + esc(f.label) + "</small></div>").join("");
+  if ($("cert-list")) {
+    $("cert-list").innerHTML = SITE.certifications.map(c =>
+      `<li class="skill-card">
+        <h3>${c.label}</h3>
+        <div class="meta">
+          <p>${c.issuer}</p>
+          <p>${c.summary}</p>
+          <p>${c.year}</p>
+        </div>
+      </li>`
+    ).join("");
+  }
 
-const art = '<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle cx="250" cy="40" r="90" fill="#3ee08f" opacity=".10"/><circle cx="60" cy="150" r="70" fill="#3ee08f" opacity=".07"/><rect x="36" y="44" width="120" height="10" rx="5" fill="#3ee08f" opacity=".55"/><rect x="36" y="66" width="190" height="8" rx="4" fill="#e6efe9" opacity=".12"/><rect x="36" y="82" width="150" height="8" rx="4" fill="#e6efe9" opacity=".12"/></svg>';
-
-$("projects").innerHTML = SITE.projects.map(p =>
-  '<a class="card" href="' + esc(p.link) + '"><div class="thumb">' +
-  (p.image ? '<img src="' + esc(p.image) + '" alt="' + esc(p.title) + ' preview" loading="lazy">' : art) +
-  '</div><div class="body"><h3>' + esc(p.title) + "</h3><p>" + esc(p.text) + '</p><div class="tags">' +
-  p.tags.map(t => "<span>" + esc(t) + "</span>").join("") + "</div></div></a>"
-).join("");
-
-$$(".card").forEach(item => {
-  item.addEventListener('mousemove', e => {
-    updateMousePositionProperties(e, item);
-  });
+  if ($("contactTitle")) $("contactTitle").textContent = SITE.contactTitle;
+  if ($("contactText")) $("contactText").textContent = SITE.contactText;
+  if ($("socials")) $("socials").innerHTML = SITE.socials.map(s => '<a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.label) + "</a>").join("");
+  if ($("footer")) $("footer").textContent = "© " + new Date().getFullYear() + " " + SITE.name;
 });
-
-$("portrait").addEventListener('mousemove', e => {
-  updateMousePositionProperties(e, $("portrait"));
-});
-
-$("skillList").innerHTML = SITE.skills.map(s => "<span class='skill-item'>" + esc(s) + "</span>").join("");
-
-$$(".skill-item").forEach(item => {
-  item.addEventListener('mousemove', e => {
-    updateMousePositionProperties(e, item);
-  });
-});
-
-$("jobs").innerHTML = SITE.jobs.map(j =>
-  "<li><h3>" + esc(j.title) + " at " + `<span style='color: #3ee08f;'>${esc(j.place)}</span>` + '</h3><div class="when">' + esc(j.when) + "</div><p>" + esc(j.text) + "</p></li>"
-).join("");
-
-$("schools").innerHTML = SITE.education.map(e =>
-  "<li><h3>" + esc(e.program) + " at " + `<span style='color: #3ee08f;'>${esc(e.school)}</span>` + '</h3><div class="when">' + esc(e.when) + "</div></li>"
-).join("");
-
-$("lang-list").innerHTML = SITE.languages.map(l =>
-  `<li class="skill-card">
-    <h3>${l.label}</h3>
-    <div class="meta">
-      <span>${l.level}</span>
-    </div>
-    <div class="fluency-bar">
-      <div class="level" style="width: ${l.percentage}%; background: ${barColor(l.percentage)};"></div>
-    </div>
-    <p>${l.summary}</p>
-  </li>`
-).join("");
-
-$("cert-list").innerHTML = SITE.certifications.map(c =>
-  `<li class="skill-card">
-    <h3>${c.label}</h3>
-    <div class="meta">
-      <p>${c.issuer}</p>
-      <p>${c.summary}</p>
-      <p>${c.year}</p>
-    </div>
-  </li>`
-).join("");
-
-$("contactTitle").textContent = SITE.contactTitle;
-$("contactText").textContent = SITE.contactText;
-$("socials").innerHTML = SITE.socials.map(s => '<a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.label) + "</a>").join("");
-$("footer").textContent = "© " + new Date().getFullYear() + " " + SITE.name;

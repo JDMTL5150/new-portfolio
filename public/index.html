@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Jacob Dawes – Low level && System's Developer</title>
+<title>Jacob Dawes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
@@ -22,6 +22,25 @@
         <li><a href="#experience">Experience</a></li>
         <li><a href="#education">Education</a></li>
         <li><a href="#contact">Contact</a></li>
+        <li>
+          <label class="theme-switch">
+            <span>
+              <img src="Assets/images/Moon.png" alt="🌙" style="width: 2rem; height: 2rem;">
+            </span>
+            <input 
+              id="theme-slider"
+              type="range" 
+              name="step-slider" 
+              min="0" 
+              max="100" 
+              step="100" 
+              value="0"
+            >
+            <span>
+              <img src="Assets/images/Sun.png" alt="☀️" style="width: 2rem; height: 2rem;">
+            </span>
+          </label>
+        </li>
       </ul>
     </nav>
   </div>
@@ -32,7 +51,7 @@
     <div class="wrap">
       <div class="status"><i></i><span id="status"></span></div>
       <h1 id="headline"></h1>
-      <p class="lede" id="lede"></p>
+      <p class="lede oversized" id="lede"></p>
       <div class="btns">
         <a class="btn primary" href="#work">See my work</a>
         <a class="btn" id="heroEmail" href="#contact">Get in touch</a>

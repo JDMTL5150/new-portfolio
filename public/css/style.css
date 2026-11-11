@@ -1,4 +1,6 @@
-/* ---------- THEME: change these to restyle the whole site ---------- */
+/* ---------- THEMES ---------- */
+
+/* Standard Root Defaults (Dark) */
 :root {
   --bg: #09100d;
   --surface: #101a15;
@@ -6,8 +8,10 @@
   --text: #e6efe9;
   --muted: #8fa399;
   --accent: #3ee08f;
-  --accent-shadow: rgba(62, 224, 143, 0.05);
+  --accent-shadow: rgba(62, 224, 143, 0.12);
   --accent-ink: #04140b;
+  --portrait-bg: linear-gradient(160deg, var(--surface), #0d2118);
+  --thumb-bg: linear-gradient(135deg, #0f2a1d, #0a1510);
   --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
   --body: "DM Sans", "Segoe UI", system-ui, sans-serif;
   color-scheme: dark;
@@ -15,6 +19,41 @@
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
+
+/* Light Theme Variable Overrides */
+[data-theme="light"],
+.light-theme {
+  --bg: #f4f8f5;
+  --surface: #ffffff;
+  --line: #d8e5dd;
+  --text: #0f1c16;
+  --muted: #53665c;
+  --accent: #059654;
+  --accent-shadow: rgba(5, 150, 84, 0.12);
+  --accent-ink: #ffffff;
+  --portrait-bg: linear-gradient(160deg, #ffffff, #e3f2ea);
+  --thumb-bg: linear-gradient(135deg, #e4f3eb, #d1e9dc);
+  color-scheme: light;
+}
+
+/* Fallback: Auto-switch based on system preference */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f4f8f5;
+    --surface: #ffffff;
+    --line: #d8e5dd;
+    --text: #0f1c16;
+    --muted: #53665c;
+    --accent: #059654;
+    --accent-shadow: rgba(5, 150, 84, 0.12);
+    --accent-ink: #ffffff;
+    --portrait-bg: linear-gradient(160deg, #ffffff, #e3f2ea);
+    --thumb-bg: linear-gradient(135deg, #e4f3eb, #d1e9dc);
+    color-scheme: light;
+  }
+}
+
+/* ---------- BASE STYLES ---------- */
 
 html {
   scroll-behavior: smooth;
@@ -38,6 +77,10 @@ body {
 
 a {
   color: inherit
+}
+
+.theme-switch {
+  display: inline-flex;
 }
 
 :focus-visible {
@@ -73,7 +116,13 @@ h2 {
 
 p {
   margin: 0 0 1em;
-  max-width: 62ch
+  max-width: 62ch;
+  transition: all 0.3s ease-in-out;
+}
+
+.oversized:hover {
+  color: var(--accent);
+  transform: scale(1.1);
 }
 
 /* nav */
@@ -88,7 +137,7 @@ header {
 
 body::before {
   content: "";
-  position: fixed;
+  position: absolute;
   inset: 0 0 auto;
   height: env(safe-area-inset-top, 0px);
   background: var(--bg);
@@ -137,6 +186,26 @@ nav ul a:hover {
   color: var(--accent)
 }
 
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 50%;
+  height: 25px;
+  background: var(--line);
+  border-radius: 20px;
+  outline: none;
+  transition: background .2s
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  cursor: pointer;
+}
+
 /* hero */
 .hero {
   padding: 120px 0 96px;
@@ -151,7 +220,7 @@ nav ul a:hover {
   height: 620px;
   right: -180px;
   top: -160px;
-  background: radial-gradient(circle, rgba(62, 224, 143, .16), transparent 65%);
+  background: radial-gradient(circle, var(--accent-shadow), transparent 65%);
   pointer-events: none
 }
 
@@ -181,6 +250,17 @@ nav ul a:hover {
   border-radius: 50%;
   background: var(--accent);
   animation: pulse 2.4s ease-in-out infinite
+}
+
+@keyframes fade-up-scroll {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes pulse {
@@ -252,27 +332,16 @@ nav ul a:hover {
 }
 
 .portrait {
-  aspect-ratio: 4/5;
-  border-radius: 18px;
-  border: 1px solid var(--line);
-  background: linear-gradient(160deg, var(--surface), #0d2118);
-  display: grid;
-  place-items: center;
-  overflow: hidden
-}
-
-.portrait {
   position: relative;
   aspect-ratio: 4/5;
   border-radius: 18px;
   border: 1px solid var(--line);
-  background: linear-gradient(160deg, var(--surface), #0d2118);
+  background: var(--portrait-bg);
   display: grid;
   place-items: center;
   overflow: hidden;
 }
 
-/* 1. Show dynamic spotlight overlay on hover */
 .portrait::before {
   content: "";
   position: absolute;
@@ -280,12 +349,12 @@ nav ul a:hover {
   border-radius: inherit;
   background: radial-gradient(
     400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(62, 224, 143, 0.25),
+    var(--accent-shadow),
     transparent 60%
   );
   opacity: 0;
   transition: opacity 0.3s ease;
-  pointer-events: none; /* Allows mouse events to pass through */
+  pointer-events: none;
   z-index: 1;
 }
 
@@ -293,7 +362,6 @@ nav ul a:hover {
   opacity: 1;
 }
 
-/* 2. Ensure child content stays above the spotlight effect */
 .portrait span {
   position: relative;
   z-index: 2;
@@ -305,11 +373,6 @@ nav ul a:hover {
   width: 100%;
   height: 100%;
   object-fit: cover
-}
-
-.portrait span {
-  font: 800 5rem var(--display);
-  color: var(--accent)
 }
 
 .facts {
@@ -348,7 +411,12 @@ nav ul a:hover {
   flex-direction: column;
   transition: border-color .2s, transform .2s;
   position: relative;
-  /* Ensure overlay bounds match the card */
+  animation: fade-up-scroll linear both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 25%;
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out;
+  will-change: transform;
 }
 
 .card:hover::before {
@@ -361,12 +429,11 @@ nav ul a:hover {
   inset: 0;
   border-radius: inherit;
   background: radial-gradient(500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-      rgba(62, 224, 143, 0.15),
-      transparent 65%);
+      var(--accent-shadow),
+      transparent 50%);
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
-  /* Allows clicks and text selection to pass through */
   z-index: 2;
 }
 
@@ -385,7 +452,7 @@ nav ul a:hover {
 
 .thumb {
   aspect-ratio: 16/9;
-  background: linear-gradient(135deg, #0f2a1d, #0a1510);
+  background: var(--thumb-bg);
   position: relative;
   overflow: hidden
 }
@@ -428,7 +495,7 @@ nav ul a:hover {
 .tags span {
   font-size: .82rem;
   color: var(--accent);
-  background: rgba(62, 224, 143, .09);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
   padding: 3px 11px;
   border-radius: 99px
 }
@@ -444,11 +511,10 @@ nav ul a:hover {
   position: relative;
   overflow: hidden;
   padding: 10px 20px;
-  border: 1px solid var(--surface);
+  border: 1px solid var(--line);
   border-radius: 99px;
   background: var(--surface);
   transition: all 0.3s ease-in-out;
-  /* Prevent child elements from distorting mouse target coordinates */
   cursor: pointer;
 }
 
@@ -469,10 +535,6 @@ nav ul a:hover {
 
 .headline-char {
   display: inline-block;
-}
-
-.headline-char {
-  display: inline-block;
   transition: transform 0.3s ease, color 0.3s ease;
   position: relative;
   z-index: 2;
@@ -482,14 +544,12 @@ nav ul a:hover {
   transform: translateY(-5px);
 }
 
-/* Ensure text stays above the spotlight layer */
 .skill-item * {
   position: relative;
   z-index: 2;
   pointer-events: none;
 }
 
-/* Dynamic radial spotlight layer */
 .skill-item::before {
   content: "";
   position: absolute;
@@ -497,12 +557,12 @@ nav ul a:hover {
   border-radius: inherit;
   background: radial-gradient(
     140px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(62, 224, 143, 0.3),
-    transparent 70%
+    var(--accent-shadow),
+    transparent 50%
   );
   opacity: 0;
   transition: opacity 0.3s ease;
-  pointer-events: none; /* Critical: allows mousemove events to trigger on .skill-item */
+  pointer-events: none;
   z-index: 1;
 }
 
@@ -516,7 +576,7 @@ nav ul a:hover {
   border-color: var(--accent);
 }
 
-/* experience: a real sequence, so a rail is meaningful */
+/* experience */
 .timeline {
   list-style: none;
   margin: 0;
@@ -564,7 +624,6 @@ nav ul a:hover {
 .skill-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  /* max-width: 40%; */
   gap: 1.5rem;
   margin: 0;
   padding: 0;
@@ -573,7 +632,8 @@ nav ul a:hover {
 
 .skill-card {
   position: relative;
-  background: var(--accent-ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
   border-radius: 8px;
   padding: 1.25rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -594,7 +654,6 @@ nav ul a:hover {
   margin-bottom: 12px;
 }
 
-/* Optional Fluency Level Bar */
 .skill-card .fluency-bar {
   width: 100%;
   height: 6px;
