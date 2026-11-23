@@ -24,6 +24,10 @@ justify-content: center;  /* centers children vertically */
     width: 80vw;
 }
 
+.spec {
+    color: var(--accent);
+}
+
 #back-btn {
     background: color-mix(in srgb, var(--accent) 10%, transparent);
     color: var(--accent);
