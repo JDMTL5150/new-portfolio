@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document Viewer</title>
+        <link rel="stylesheet" href="css/globals.css">
+        <link rel="stylesheet" href="css/pdfviewer.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    </head>
+    <canvas id="particle-canvas"></canvas>
+    <body>
+        <div class="title-wrap">
+            <h1 class="title">Document Viewer</h1>
+            <a href="/public/index.html" id="back-btn">&larr; Back</a>
+        </div>
+        <div id="pdf-canvas"></div>
+
+        <section class="description">
+            <h2>Description</h2>
+            <p id="desc-lbl"></p>
+        </section>
+
+        <section class="credits">
+            <h2>Credits and Links</h2>
+            <ul id="credit-list"></ul>
+        </section>
+
+        <script src="js/pdfviewer.js"></script>
+        <script src="js/particles.js"></script>
+        <footer>Jacob's PDFViewer</footer>
+    </body>
+</html>

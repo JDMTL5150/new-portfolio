@@ -2,6 +2,16 @@
    EDIT YOUR DETAILS HERE. Everything on the page
    fills in from this one object.
    ===================================================== */
+
+   // space_apps_svg from => https://www.spaceappschallenge.org
+const space_apps_svg = `<svg viewBox="0 0 24 24" id="spaceapps/meteor">
+  <path d="M11.2416 12.7584L16.1402 7.85981M8.32669 11.4258L11.9695 6.39183M3.46724 14.1461L9.95605 1M12.5742 15.6733L17.6082 12.0305M9.85387 20.5328L23 14.044M11.156 12.844C13.0218 14.7098 13.0218 17.7349 11.156 19.6007C9.2902 21.4664 6.26515 21.4664 4.39935 19.6007C2.53355 17.7349 2.53355 14.7098 4.39935 12.844C6.26515 10.9782 9.2902 10.9782 11.156 12.844Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>`;
+
+const svgMarkup = `<svg id="pick" fill="#3ee08f" width="5rem" height="5rem" viewBox="0 0 32 32" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:serif="http://www.serif.com/" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M18.448,26.655c0.001,-0.001 0.001,-0.001 0.001,-0.002c2.407,-3.406 6.792,-9.888 8.717,-14.401c0.535,-1.252 0.882,-2.367 0.983,-3.246c0.088,-0.778 -0.016,-1.414 -0.263,-1.881c-0.359,-0.676 -1.158,-1.309 -2.339,-1.783c-2.201,-0.881 -5.872,-1.342 -9.545,-1.342c-3.673,-0 -7.344,0.461 -9.545,1.342c-1.181,0.474 -1.98,1.107 -2.338,1.783c-0.248,0.467 -0.352,1.103 -0.263,1.881c0.1,0.879 0.447,1.994 0.982,3.246c1.925,4.513 6.31,10.995 8.716,14.402c0.001,0 0.001,0.001 0.001,0.002c0.563,0.792 1.475,1.263 2.447,1.263c0.972,-0 1.884,-0.471 2.446,-1.264Zm-2.455,-17.699l-0.001,0.055l-0,4.601c-0.236,-0.066 -0.485,-0.101 -0.742,-0.101c-1.518,-0 -2.75,1.232 -2.75,2.75c-0,1.517 1.232,2.75 2.75,2.75c1.518,-0 2.75,-1.233 2.75,-2.75c-0,-0.073 -0.008,-4.835 -0.008,-4.835l1.301,1.301c0.39,0.39 1.024,0.39 1.414,-0c0.39,-0.391 0.39,-1.024 0,-1.414l-3.008,-3.009c-0.39,-0.39 -1.024,-0.39 -1.414,0c-0.182,0.181 -0.279,0.415 -0.292,0.652Z" />
+</svg>`;
+
 const SITE = {
   name: "Jacob Dawes",
   role: "Computer Engineering Student",
@@ -112,6 +122,20 @@ const SITE = {
     { label: "English", level: "Fluent", percentage: 100, summary: "Capable of technical conversations and documentation reading." },
     { label: "French", level: "Fluent", percentage: 100, summary: "Capable of technical conversations and documentation reading." },
     { label: "Spanish", level: "Beginner", percentage: 20, summary: "Capable of understanding some conversations and some reading." }
+  ],
+
+  events: [
+    { 
+      id: "space_apps_hackathon_cert",
+      url: "public/Assets/images/hackathoncert.pdf",
+      svg: space_apps_svg,
+      type: "Hackathon",
+      name: "2026 NASA Space Apps Challenge", 
+      challenge: "Create Health Monitoring Software for Astronauts on Space Missions", 
+      location: "Ottawa - Carleton University",
+      team: "P.U.L.S.A.R. (Physiological Unit for Life-Support & Autonomous Readings)",
+      year: 2026 
+    }
   ],
 
   certifications: [
@@ -258,10 +282,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const portraitEl = $("portrait");
 
-const svgMarkup = `<svg id="pick" fill="#3ee08f" width="5rem" height="5rem" viewBox="0 0 32 32" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:serif="http://www.serif.com/" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <path d="M18.448,26.655c0.001,-0.001 0.001,-0.001 0.001,-0.002c2.407,-3.406 6.792,-9.888 8.717,-14.401c0.535,-1.252 0.882,-2.367 0.983,-3.246c0.088,-0.778 -0.016,-1.414 -0.263,-1.881c-0.359,-0.676 -1.158,-1.309 -2.339,-1.783c-2.201,-0.881 -5.872,-1.342 -9.545,-1.342c-3.673,-0 -7.344,0.461 -9.545,1.342c-1.181,0.474 -1.98,1.107 -2.338,1.783c-0.248,0.467 -0.352,1.103 -0.263,1.881c0.1,0.879 0.447,1.994 0.982,3.246c1.925,4.513 6.31,10.995 8.716,14.402c0.001,0 0.001,0.001 0.001,0.002c0.563,0.792 1.475,1.263 2.447,1.263c0.972,-0 1.884,-0.471 2.446,-1.264Zm-2.455,-17.699l-0.001,0.055l-0,4.601c-0.236,-0.066 -0.485,-0.101 -0.742,-0.101c-1.518,-0 -2.75,1.232 -2.75,2.75c-0,1.517 1.232,2.75 2.75,2.75c1.518,-0 2.75,-1.233 2.75,-2.75c-0,-0.073 -0.008,-4.835 -0.008,-4.835l1.301,1.301c0.39,0.39 1.024,0.39 1.414,-0c0.39,-0.391 0.39,-1.024 0,-1.414l-3.008,-3.009c-0.39,-0.39 -1.024,-0.39 -1.414,0c-0.182,0.181 -0.279,0.415 -0.292,0.652Z" />
-</svg>`;
-
 if (portraitEl) {
   portraitEl.innerHTML = SITE.photo
     ? '<img src="' + esc(SITE.photo) + '" alt="Portrait of ' + esc(SITE.name) + '">'
@@ -336,6 +356,27 @@ if (portraitEl) {
         <p>${l.summary}</p>
       </li>`
     ).join("");
+  }
+
+  // event list
+  if ($("events-list")) {
+    $("events-list").innerHTML = SITE.events.map(event => 
+      `<li class="event-card">
+        <span class="event-span-top">
+          <h2>${event.type}</h2>
+          <a href="pdfviewer.html?doc=${encodeURIComponent(event.id)}">Click to view Certificate &rarr;</a>
+        </span>
+        <span class="event-span">
+          <p style='width: 32px; height: 32px;'>${event.svg}</p>
+          <h3>${event.name}</h3>
+        </span>
+        <div class="meta">
+          <h5>${event.challenge}</h5>
+          <p>${event.location}</p>
+          <p>${event.team}</p>
+          <p>${event.year}</p>
+        </div>
+      </li>`).join("")
   }
 
   if ($("cert-list")) {
