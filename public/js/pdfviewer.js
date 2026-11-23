@@ -1,4 +1,4 @@
-const docs_path = "/public/Assets/documents/";
+const docs_path = "Assets/documents/";
 
 const $ = id => document.getElementById(id);
 
