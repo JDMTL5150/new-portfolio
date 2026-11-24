@@ -18,7 +18,7 @@ const SITE = {
   status: "Open to Networking & Opportunities",
   headline: "Low-Level && System's Developer",
   headlineAccent: "&&",          // this phrase is shown in green (leave "" for none)
-  lede: "Passionate abount Low level Programmer & cybersecurity. Strong foundation in hardware and software development, seeking to contribute to innovative projects and expand my expertise in the field.",
+  lede: "Passionate about Low level Programmer & cybersecurity. Strong foundation in hardware and software development, seeking to contribute to innovative projects and expand my expertise in the field.",
   email: "jacobd2887@gmail.com",
   photo: "",                       // paste an image URL or data URI; blank shows your initial
 
